@@ -1,0 +1,19 @@
+Licensing scope
+
+Manuscript
+----------
+Copyright (c) 2026 Jiarui Fang. All rights reserved.
+
+The manuscript source and compiled manuscript under paper/ are not licensed
+under the MIT License. No permission to reuse, modify or redistribute the
+manuscript is granted by the code license. Rights and exceptions provided
+by applicable law are unaffected.
+
+Software and accompanying materials
+-----------------------------------
+Original files outside paper/, including Python code, example JSON files,
+the README and the integrity inventory, are licensed under the MIT License
+reproduced in code/LICENSE.
+
+The separate manuscript rights statement takes precedence for every file
+under paper/.

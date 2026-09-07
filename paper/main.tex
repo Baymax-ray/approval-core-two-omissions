@@ -1,0 +1,383 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Hare-core nonemptiness for approval committees with two omissions},pdfauthor={Jiarui Fang},pdfsubject={Approval-based committee elections and coalitional stability},pdfkeywords={approval voting, Hare core, PAV, core existence}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\PAV}{\operatorname{PAV}}
+\newcommand{\gain}{\operatorname{Q}}
+\title{Hare-core nonemptiness for approval committees\\with two omissions}
+\author{Jiarui Fang\\[0.35em]
+\small Boston University\\
+\small \href{mailto:baymin@bu.edu}{\texttt{baymin@bu.edu}}\\
+\small ORCID: \href{https://orcid.org/0009-0006-9100-0445}{0009-0006-9100-0445}}
+\date{September 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Core stability requires that no coalition can use its proportional share
+of seats to make every member strictly better off. We prove that every
+finite approval election with $m\ge3$ candidates and $k=m-2$ seats has an
+ordinary deterministic Hare-core committee, without restricting the
+number of voters or their approval sets. The proof bounds repeated
+support for blocking targets by the size of their intersection. This
+estimate justifies a contraction that fixes an initial blocking target,
+removes its strict gainers and leaves a smaller ordinary election with
+two omissions. Every core of the residual election lifts to a core of
+the original election. Induction gives a finite exact construction,
+including quota equality and overlapping deviations. The result concerns
+all candidate counts with two omissions, rather than a bounded range of
+committee sizes; it does not establish existence for unrestricted $(m,k)$.
+\end{abstract}
+
+\section{Introduction}
+A representative committee can be challenged by voters who would all
+prefer to use their collective entitlement to select a different set.
+The Hare core rules out every such challenge when a coalition's share
+of seats is proportional to its share of the electorate. With binary
+approvals, each voter's utility is the number of approved candidates
+selected. The resulting stability requirement is stronger than a
+comparison of total approval scores: each member of a blocking
+coalition must strictly improve.
+
+Proportional Approval Voting (PAV) assigns diminishing harmonic credit
+for each additional approved representative. Peters proved core existence
+for $k\le8$ and, using a recursive PAV
+procedure, for $m\le15$~\cite[Theorems 4.1, 4.5 and 5.3]{Peters2025}.
+His procedure fixes blocking targets and removes the voters who strictly
+gain from them before
+reoptimizing over full committees~\cite[Algorithm 1]{Peters2025}.
+The result here instead fixes the number of unselected candidates:
+$m-k=2$, with no upper bound on $m$, $k$ or the electorate.
+There is no restriction on how many candidates a voter approves or
+disapproves.
+
+The main step is a contraction theorem rather than a claim that PAV
+itself always selects a core committee. Start from a global PAV
+maximizer and a blocking target $F$. If some of its strict gainers can
+strictly gain again after $F$ is selected, two omissions force their
+approval sets into a specific configuration. A summed swap inequality
+then bounds their number in terms of overlap with the later target.
+This bound permits a new ordinary residual election on $C\setminus F$,
+with fewer voters and $k-|F|$ seats. Every residual core lifts, so no
+additional invariant or tie-breaking condition is required.
+
+The proof is analytic. It does not use a finite classification,
+linear-programming certificate or a fractional-to-integral passage.
+We give the model and theorem first, establish the overlap bound,
+prove the contraction, and conclude by induction. An exact example
+then illustrates a contraction from a blocked PAV maximizer.
+
+\section{Model and main theorem}\label{sec:model}
+Let $N$ be a nonempty finite voter set, $n=|N|$, and let $C$ be a finite
+candidate set with $m=|C|$. Voter $i$ approves an arbitrary set $A_i\subseteq C$.
+For every $X\subseteq C$, put $u_i(X)=|A_i\cap X|$. A committee has exactly
+$k$ candidates, where $1\le k\le m$. A nonempty coalition $S\subseteq N$
+blocks a committee $W$ by a target $T\subseteq C$ if
+\[
+ n|T|\le k|S|\quad\text{and}\quad
+ u_i(T)>u_i(W)\quad\text{for every }i\in S.
+\]
+An empty target cannot strictly improve a voter, and affordability implies
+$|T|\le k$. Define the full strict-gainer set and its size by
+\[
+ \gain(W,T)=\{i\in N:u_i(T)>u_i(W)\},\qquad q(W,T)=|\gain(W,T)|.
+\]
+Every blocking coalition is contained in $\gain(W,T)$. Conversely, if a
+nonempty target satisfies $kq(W,T)\ge n|T|$, its full strict-gainer set is
+nonempty and is itself an affordable coalition. Thus the exact core test is
+\begin{equation}\label{eq:core}
+ W\text{ is core}\quad\Longleftrightarrow\quad
+ kq(W,T)<n|T|\quad
+ \text{for every }\varnothing\ne T\subseteq C,\ |T|\le k.
+\end{equation}
+All quota tests below use this integer convention. Equality is blocking.
+No assumption of unanimous approval of a target is made, and targets may
+overlap the current committee.
+
+\begin{theorem}\label{thm:main}
+For every finite approval election with $m\ge3$ candidates and $k=m-2$ seats,
+an ordinary deterministic Hare-core committee exists.
+\end{theorem}
+
+Proportional Approval Voting (PAV) maximizes a harmonic approval score.
+We use its optimality only to initialize a contraction; a PAV maximizer
+need not itself be core. Define
+\[
+ H_0=0,\qquad H_a=\sum_{j=1}^a\frac1j\quad(a\ge1),\qquad
+ \PAV(X)=\sum_{i\in N}H_{u_i(X)}.
+\]
+A global PAV maximizer among $k$-committees exists by finiteness. It is also
+a one-swap local maximizer: replacing any selected candidate by any
+unselected candidate does not increase PAV.
+
+\section{Bounding repeated support}\label{sec:repeat}
+We first record an elementary removal bound. Fix a committee $W$, an
+unselected candidate $b$, and a nonempty set $Y\subseteq W$. For one voter,
+sum the PAV changes over the swaps $W-\{y\}+\{b\}$, $y\in Y$. If $b$ is
+approved, every such change is nonnegative. If $b$ is not approved and
+$u=u_i(W)>0$, the sum is $-|A_i\cap Y|/u\ge-1$. If $u=0$, the sum is zero.
+Thus this sum is at least $-1$ for every voter; no division by zero is used.
+
+We reprove the following exclusion of Peters~\cite[Lemma~3.1(ii)]{Peters2025}.
+
+\begin{lemma}\label{lem:one}
+A Hare blocker of a one-swap PAV local maximizer cannot introduce exactly
+one new candidate. In particular, if exactly two candidates are unselected,
+every blocker contains both of them.
+\end{lemma}
+\begin{proof}
+Let $W$ be such a local maximizer and suppose $T\setminus W=\{b\}$.
+Write $t=|T|$ and $Y=W\setminus T$, so $d=|Y|=k-t+1\ge1$. A strict gainer
+approves $b$ and none of $Y$. Its utility at $W$ is at most $t-1$; hence
+each of the $d$ swaps adding $b$ and removing a member of $Y$ increases its
+PAV term by at least $1/t$. Every other voter's summed contribution is at
+least $-1$ by the removal bound. Writing $q=q(W,T)$, the total change,
+summed over all $d$ swaps and voters, is therefore at least
+\[
+ \frac{dq}{t}-(n-q)=\frac{(k+1)q-nt}{t}.
+\]
+If $T$ blocks, $kq\ge nt$ and $q>0$, so this expression is positive.
+Local maximality says each swap has nonpositive total change, a
+contradiction. A target contained in $W$ has no strict gainers. When two
+candidates are unselected, a blocker must consequently contain both.
+\end{proof}
+
+The next estimate holds for \emph{every} completion of a first blocking
+target. Neither the later committee nor the later target needs to optimize
+an objective.
+
+\begin{lemma}[Repeated-support bound]\label{lem:repeat}
+Let $|C|=k+2$, let $W_0$ be a one-swap PAV local maximizer, and let $F$
+be a Hare blocker of $W_0$. Put $Q_0=\gain(W_0,F)$. For any $k$-committee
+$W\supseteq F$ and any $T\subseteq C$ with $|T|\le k$, define
+\[
+ I=F\cap T,\quad s=|I|,\quad
+ R=Q_0\cap\gain(W,T),\quad r=|R|.
+\]
+Then
+\begin{equation}\label{eq:repeat}
+ (k+1)r\le ns.
+\end{equation}
+The later target $T$ is not required to be affordable.
+\end{lemma}
+\begin{proof}
+If $r=0$, the conclusion is immediate. Suppose $r>0$ and put
+$B=C\setminus W_0$, so $|B|=2$. For $i\in R$, let $a=|A_i|$. The two
+strict improvements and the containment $F\subseteq W$ give
+\[
+ a\ge u_i(T)\ge u_i(W)+1\ge u_i(F)+1
+ \ge u_i(W_0)+2\ge a.
+\]
+Every inequality is therefore an equality. In particular, the voter
+approves both members of $B$, $F$ contains exactly $a-1$ of its approvals,
+and $T$ contains all its approvals. Lemma~\ref{lem:one} gives $B\subseteq F$,
+so $B\subseteq I$. The unique approved candidate $d_i$ outside $F$ lies
+in $W_0\setminus I$, and every other approved candidate lies in $I$.
+Consequently $a\ge3$ and $a-1\le s$, in particular $s\ge2$.
+
+Set $Y=W_0\setminus I$. Since both unselected candidates belong to $I$,
+\[
+ d=|Y|=k-s+2.
+\]
+Sum the PAV changes over all $2d$ swaps adding $b\in B$ and removing
+$y\in Y$. For a voter $i\in R$, both additions are approved, exactly one
+member of $Y$ is approved, and $u_i(W_0)=a-2$. This voter's summed
+contribution is exactly
+\[
+ \frac{2(d-1)}{a-1}\ge\frac{2(k-s+1)}s.
+\]
+For each voter outside $R$, the removal bound applied separately to the
+two choices of $b$ gives a summed contribution of at least $-2$. Every
+swap has nonpositive aggregate change, so
+\[
+ 0\ge\frac{2r(k-s+1)}s-2(n-r).
+\]
+Multiplication by the positive number $s/2$ and rearrangement yield
+$(k+1)r\le ns$, as required.
+\end{proof}
+
+\section{A core-preserving contraction}\label{sec:contraction}
+\begin{lemma}[Contraction and lifting]\label{lem:lift}
+Let $|C|=k+2$, let $W_0$ be a global PAV maximizer, and let $F$ block $W_0$.
+Write
+\[
+ f=|F|,\quad Q_0=\gain(W_0,F),\quad q_0=|Q_0|,\qquad
+ D=C\setminus F,\quad N'=N\setminus Q_0,
+\]
+\[
+ k'=k-f,\qquad n'=n-q_0.
+\]
+Then $k'\ge1$, $n'\ge1$, $|D|=k'+2$, and $kn'\le nk'$. Consider the
+ordinary residual approval election with electorate $N'$, candidates $D$,
+approval sets $A_i\cap D$, and $k'$ seats. Every core committee $U$ of
+this residual election lifts to an original core committee $F\cup U$.
+\end{lemma}
+\begin{proof}
+First, $q_0<n$: otherwise any padding of $F$ to $k$ candidates would
+strictly improve every voter over $W_0$, and hence strictly increase PAV,
+contrary to global maximality. The original blocking inequality
+$kq_0\ge nf$ then also implies $f<k$. Thus $n',k'>0$ and
+\begin{equation}\label{eq:residualquota}
+ kn'=k(n-q_0)\le n(k-f)=nk'.
+\end{equation}
+The candidate count satisfies $|D|=k'+2$.
+
+Let $U$ be a residual core committee and set $W=F\cup U$. Suppose a
+nonempty target $T$ of size $t\le k$ blocks $W$ in the \emph{original}
+election, so $kq\ge nt$ for $q=q(W,T)$. Define
+\[
+ I=F\cap T,\quad s=|I|,\quad V=T\setminus F,\quad v=|V|,
+\]
+\[
+ r=|Q_0\cap\gain(W,T)|,\qquad q'=q-r.
+\]
+Lemma~\ref{lem:repeat} gives $(k+1)r\le ns$, hence $kr\le ns$.
+It follows that
+\begin{equation}\label{eq:remaining}
+ kq'=kq-kr\ge n(t-s)=nv.
+\end{equation}
+The target $V$ is nonempty, since $T\subseteq F\subseteq W$ would make
+strict improvement impossible. Every voter $i\in\gain(W,T)\setminus Q_0$
+strictly improves $V$ over $U$ in the residual election: cancellation of
+the fixed part gives
+\[
+ |A_i\cap V|>|A_i\cap U|+|A_i\cap(F\setminus T)|
+ \ge |A_i\cap U|.
+\]
+Combining \eqref{eq:residualquota} and \eqref{eq:remaining},
+\[
+ kk'q'\ge nk'v\ge kn'v,
+ \qquad\text{so}\qquad k'q'\ge n'v.
+\]
+As $q'\le n'$ and $n'>0$, this inequality implies $v\le k'$.
+Thus $V$ is a nonempty admissible target and the $q'$ remaining voters
+form an affordable strictly improving residual coalition, contradicting
+the core property of $U$. Any additional residual strict gainers only
+strengthen this contradiction.
+\end{proof}
+
+The residual election is a separately defined induction instance; its
+quota is not substituted into an original blocking test. Every original
+test retains the original $n,k$. Equations~\eqref{eq:residualquota}--
+\eqref{eq:remaining} prove exactly why a hypothetical original blocker
+would induce a residual blocker.
+
+\section{Induction and exact construction}\label{sec:construction}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Induct on $k\ge1$, always with $|C|=k+2$. For $k=1$, choose a global
+PAV maximizer. Any blocker would have size one and $q=n$, hence strictly
+increase PAV, a contradiction.
+
+For $k>1$, choose a global PAV maximizer $W_0$. If it is core, the claim
+is proved. Otherwise choose any blocking target $F$. Lemma~\ref{lem:lift}
+produces a residual ordinary approval election with a nonempty electorate,
+$k'+2$ candidates and $1\le k'<k$ seats. The induction hypothesis gives
+a residual core committee $U$. Lemma~\ref{lem:lift} lifts it to the
+original core committee $F\cup U$, which has exactly $f+k'=k$ candidates.
+\end{proof}
+
+This is also a finite construction: enumerate committees to find a global
+PAV maximizer; enumerate all nonempty targets of size at most the current
+seat count to check \eqref{eq:core}; if a blocker exists, contract as in
+Lemma~\ref{lem:lift}, solve the smaller instance, and lift. The positive
+integer seat count strictly decreases at each recursive call. Any choice
+among tied PAV maximizers and any first blocker is allowed. No efficient
+running-time claim is made.
+
+All lemmas sum over actual voters, so repeated types with positive integer
+multiplicities are included. Empty approvals make zero PAV changes and
+never strictly gain; universal approvals cannot strictly gain from a target
+of at most $k$ candidates. These voters are nevertheless retained in every
+electorate unless they genuinely belong to a deleted full-gainer set.
+Finiteness is used for global maximization, exhaustive tests and the
+well-founded induction. There is no fractional-to-integral passage.
+
+
+\subsection{Contraction of a blocked PAV maximizer}\label{sec:example}
+Let $C=B\mathbin{\dot\cup}X\mathbin{\dot\cup}Y$, where
+$B=\{b_0,b_1\}$, $|X|=3$ and $|Y|=6$. There are $18$ voters:
+five approve $X\cup\{b_0\}$, five approve $X\cup\{b_1\}$, and eight
+approve $Y$. Set $k=9$.
+
+The committee $W_0=X\cup Y$ is the unique global PAV maximizer.
+To see this, measure the PAV loss of a committee relative to the full
+candidate set $C$. Every committee omits a pair, and its loss depends
+only on the pair's classes:
+\[
+\begin{array}{c|rrrrrr}
+\text{omitted-pair classes}&BB&BX&BY&XX&XY&YY\\ \hline
+\PAV(C)-\PAV(W)&\frac52&\frac{25}6&\frac{31}{12}&
+\frac{35}6&\frac{23}6&\frac{44}{15}
+\end{array}
+\]
+The $BB$ loss is strictly smallest. Nevertheless,
+$F=X\cup B$ blocks $W_0$: the first ten voters improve from utility
+three to four, and
+\[
+ kq(W_0,F)=9\cdot10=18\cdot5=n|F|.
+\]
+Under the same Hare-core and unique-global-PAV conventions, this example
+has fewer voters than the $27$-voter example described as voter-minimal
+in Peters~\cite[Section 4.3]{Peters2025}. We make no minimality claim
+for eighteen voters.
+
+After contraction, eight voters remain, all approving the six candidates
+in $Y$, and the residual committee size is four. Every four-element
+subset $U\subseteq Y$ is residual core because no target of at most
+four candidates can strictly improve any voter. Lemma~\ref{lem:lift}
+therefore makes $F\cup U$ an original core committee.
+The accompanying code reproduces this construction and independently
+checks every original target, using integers for all quota tests.
+
+\section{Discussion}
+The two-omission condition is used at one precise point. A voter who
+strictly improves first to $F$ and then to a target against a completion
+of $F$ must start exactly two approvals below its total and gain one
+approval at each step. This rigidity turns repeated participation into
+the overlap bound of Lemma~\ref{lem:repeat}. Counting two possible gains
+per voter alone would not justify deleting a coalition. The overlap
+bound supplies the missing charge for candidates cancelled from a
+later target.
+
+The contraction preserves the class $m-k=2$ and accepts any core of the
+smaller election. In each recursive call, PAV is evaluated on projected
+residual approval sets, with that residual election's seat count.
+The lifting proof, rather than an identification of the two quotas,
+connects this residual calculation to every blocking test in the
+parent electorate. This distinguishes the argument from an assertion
+that an arbitrary sequence of fixed-target reoptimizations cannot
+overcommit seats.
+
+With three or more omissions, two strict improvements no longer force
+the utility equalities used in Lemma~\ref{lem:repeat}. The proof therefore
+does not establish core existence for unrestricted $(m,k)$. It also
+makes no claim about weak Nash certificates or polynomial running time.
+Its conclusion is a uniform, integral existence theorem for the entire
+two-omission class, supported by a complete contraction-and-lifting
+argument.
+
+\section*{Code availability}
+The accompanying package contains the exact exhaustive constructor,
+a separate set-based verifier and the example in Section~\ref{sec:example}.
+They use only Python's standard library. The theorem does not depend on
+these diagnostic computations. Instructions and the input format are
+given in the package README. The repository for public release is
+\url{https://github.com/Baymax-ray/approval-core-two-omissions}.
+
+\section*{AI use}
+GPT-6 Astra (OpenAI) was used for proof exploration and checking,
+verification-code development, manuscript drafting and revision.
+The author retains responsibility for the submitted content.
+
+\begin{thebibliography}{1}
+\bibitem{Peters2025}
+D. Peters, \emph{The Core of Approval-Based Committee Elections with Few Seats},
+Proceedings of the Thirty-Fourth International Joint Conference on
+Artificial Intelligence (IJCAI 2025), pp.~4014--4022.
+\href{https://doi.org/10.24963/ijcai.2025/447}{doi:10.24963/ijcai.2025/447}.
+\end{thebibliography}
+\end{document}

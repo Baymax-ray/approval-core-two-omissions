@@ -1,0 +1,72 @@
+{
+  "status": "EXACT_CONSTRUCTED_CORE",
+  "m": 11,
+  "k": 9,
+  "n": 18,
+  "committee_mask": 511,
+  "committee": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "trace": [
+    {
+      "n": 18,
+      "k": 9,
+      "candidates": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "pav_committee": 2044,
+      "pav_value": "569/15",
+      "status": "CONTRACTION",
+      "target": 31,
+      "strict_gainer_count": 10,
+      "dropped_types": [
+        [
+          29,
+          5
+        ],
+        [
+          30,
+          5
+        ]
+      ],
+      "residual_n": 8,
+      "residual_k": 4,
+      "returned_committee": 511
+    },
+    {
+      "n": 8,
+      "k": 4,
+      "candidates": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "pav_committee": 480,
+      "pav_value": "50/3",
+      "status": "CORE_LEAF",
+      "returned_committee": 480
+    }
+  ]
+}
+
