@@ -16,6 +16,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("instance", type=Path)
     parser.add_argument("construction", type=Path)
+    parser.add_argument("--droop", action="store_true",
+                        help="Verify strict Droop stability; default is Hare.")
     args = parser.parse_args()
     data = json.loads(args.instance.read_text(encoding="utf-8"))
     certificate = json.loads(args.construction.read_text(encoding="utf-8"))
@@ -48,14 +50,16 @@ def main():
             target = set(chosen)
             q = sum(weight for approved, weight in voters
                     if len(approved.intersection(target)) > len(approved.intersection(committee)))
-            if k * q >= n * size:
-                raise AssertionError({"target": chosen, "q": q, "kq": k * q, "nt": n * size})
+            blocked = (k + 1) * q > n * size if args.droop else k * q >= n * size
+            if blocked:
+                raise AssertionError({"target": chosen, "q": q, "kq": k * q,
+                                      "(k+1)q": (k + 1) * q, "nt": n * size})
             checks += 1
-    print("INDEPENDENT_CORE_PASS", json.dumps(
+    status = "INDEPENDENT_DROOP_CORE_PASS" if args.droop else "INDEPENDENT_CORE_PASS"
+    print(status, json.dumps(
         {"m": m, "k": k, "n": n, "committee": sorted(committee), "targets_checked": checks},
         sort_keys=True))
 
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,12 @@
+{
+  "m": 8,
+  "k": 6,
+  "source": "Dominik Peters, The Core of Approval-Based Committee Elections with Few Seats, arXiv:2501.18304v2 (14 May 2025), Example 6.1, relabelled.",
+  "source_url": "https://arxiv.org/html/2501.18304v2#S6.Thmtheorem1",
+  "candidate_labels": ["b0", "b1", "x0", "x1", "y1", "y2", "y3", "y4"],
+  "ballots": [
+    {"mask": 13, "multiplicity": 7},
+    {"mask": 14, "multiplicity": 7},
+    {"mask": 240, "multiplicity": 10}
+  ]
+}

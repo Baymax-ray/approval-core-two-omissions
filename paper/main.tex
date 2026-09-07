@@ -4,12 +4,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={Hare-core nonemptiness for approval committees with two omissions},pdfauthor={Jiarui Fang},pdfsubject={Approval-based committee elections and coalitional stability},pdfkeywords={approval voting, Hare core, PAV, core existence}}
+\hypersetup{pdftitle={Droop-core nonemptiness for approval committees with two omissions},pdfauthor={Jiarui Fang},pdfsubject={Approval-based committee elections and coalitional stability},pdfkeywords={approval voting, Droop core, Hare core, PAV, core existence}}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 \newcommand{\PAV}{\operatorname{PAV}}
 \newcommand{\gain}{\operatorname{Q}}
-\title{Hare-core nonemptiness for approval committees\\with two omissions}
+\title{Droop-core nonemptiness for approval committees\\with two omissions}
 \author{Jiarui Fang\\[0.35em]
 \small Boston University\\
 \small \href{mailto:baymin@bu.edu}{\texttt{baymin@bu.edu}}\\
@@ -20,17 +21,21 @@
 \begin{abstract}
 Core stability requires that no coalition can use its proportional share
 of seats to make every member strictly better off. We prove that every
-finite approval election with $m\ge3$ candidates and $k=m-2$ seats has an
-ordinary deterministic Hare-core committee, without restricting the
-number of voters or their approval sets. The proof bounds repeated
+finite approval election with $m\ge3$ candidates and $k=m-2$ seats has a
+deterministic Droop-core committee, and hence a Hare-core committee,
+without restricting the number of voters or their approval sets.
+The Droop rule can let smaller coalitions fund a challenge, making
+stability more demanding than under Hare.
+Individual improvements are strict, and equality at the Droop threshold
+does not block. The proof bounds repeated
 support for blocking targets by the size of their intersection. This
 estimate justifies a contraction that fixes an initial blocking target,
 removes its strict gainers and leaves a smaller ordinary election with
-two omissions. Every core of the residual election lifts to a core of
-the original election. Induction gives a finite exact construction,
-including quota equality and overlapping deviations. The result concerns
-all candidate counts with two omissions, rather than a bounded range of
-committee sizes; it does not establish existence for unrestricted $(m,k)$.
+two omissions. Every Droop core of the residual election lifts to a
+Droop core of the original election. Induction gives a finite exact
+construction, with overlapping deviations and an explicit zero-seat
+boundary. Together with a one-swap bound, this establishes Droop-core
+existence whenever at most two candidates are unselected.
 \end{abstract}
 
 \section{Introduction}
@@ -44,16 +49,20 @@ comparison of total approval scores: each member of a blocking
 coalition must strictly improve.
 
 Proportional Approval Voting (PAV) assigns diminishing harmonic credit
-for each additional approved representative. Peters proved core existence
-for $k\le8$ and, using a recursive PAV
+for each additional approved representative. Peters' one-swap bound gives
+core existence when $k=m$ or $k=m-1$~\cite[Lemma~3.1(ii)]{Peters2025}.
+He also proved existence for $k\le8$ and, using a recursive PAV
 procedure, for $m\le15$~\cite[Theorems 4.1, 4.5 and 5.3]{Peters2025}.
 His procedure fixes blocking targets and removes the voters who strictly
 gain from them before
 reoptimizing over full committees~\cite[Algorithm 1]{Peters2025}.
-The result here instead fixes the number of unselected candidates:
-$m-k=2$, with no upper bound on $m$, $k$ or the electorate.
+Becker, Greger and Peters establish existence with at most seven distinct
+voter types by a computer-assisted argument~\cite[Theorems 2.5 and 5.2]{BGP2026}.
+The result here extends the omission-based guarantee to $m-k=2$ under
+the stronger Droop criterion, with no bound on candidate count or voter types.
 There is no restriction on how many candidates a voter approves or
-disapproves.
+disapproves. This quota distinction matters: Peters shows that PAV can
+fail the Droop core already at $k=6$~\cite[Example~6.1]{Peters2025}.
 
 The main step is a contraction theorem rather than a claim that PAV
 itself always selects a core committee. Start from a global PAV
@@ -65,18 +74,17 @@ This bound permits a new ordinary residual election on $C\setminus F$,
 with fewer voters and $k-|F|$ seats. Every residual core lifts, so no
 additional invariant or tie-breaking condition is required.
 
-The proof is analytic. It does not use a finite classification,
-linear-programming certificate or a fractional-to-integral passage.
-We give the model and theorem first, establish the overlap bound,
-prove the contraction, and conclude by induction. An exact example
-then illustrates a contraction from a blocked PAV maximizer.
+The proof is analytic. We state the Droop result first, then develop
+the contraction through a direct Hare proof before proving the stronger statement.
+Exact examples illustrate the distinction between the quotas, the contraction and its
+repeated-support bound; the computations are not premises of the proof.
 
 \section{Model and main theorem}\label{sec:model}
 Let $N$ be a nonempty finite voter set, $n=|N|$, and let $C$ be a finite
 candidate set with $m=|C|$. Voter $i$ approves an arbitrary set $A_i\subseteq C$.
 For every $X\subseteq C$, put $u_i(X)=|A_i\cap X|$. A committee has exactly
 $k$ candidates, where $1\le k\le m$. A nonempty coalition $S\subseteq N$
-blocks a committee $W$ by a target $T\subseteq C$ if
+Hare-blocks a committee $W$ by a target $T\subseteq C$ if
 \[
  n|T|\le k|S|\quad\text{and}\quad
  u_i(T)>u_i(W)\quad\text{for every }i\in S.
@@ -90,18 +98,33 @@ Every blocking coalition is contained in $\gain(W,T)$. Conversely, if a
 nonempty target satisfies $kq(W,T)\ge n|T|$, its full strict-gainer set is
 nonempty and is itself an affordable coalition. Thus the exact core test is
 \begin{equation}\label{eq:core}
- W\text{ is core}\quad\Longleftrightarrow\quad
+ W\text{ is Hare core}\quad\Longleftrightarrow\quad
  kq(W,T)<n|T|\quad
  \text{for every }\varnothing\ne T\subseteq C,\ |T|\le k.
 \end{equation}
-All quota tests below use this integer convention. Equality is blocking.
-No assumption of unanimous approval of a target is made, and targets may
-overlap the current committee.
+Equality is blocking under this Hare convention. Under the Droop
+convention of Peters~\cite[Section~6]{Peters2025}, affordability instead
+requires $n|T|<(k+1)|S|$. Taking the full strict-gainer set again shows
+that a nonempty target Droop-blocks $W$ exactly when
+\begin{equation}\label{eq:droop}
+ (k+1)q(W,T)>n|T|.
+\end{equation}
+A Droop-core committee admits no such target. Individual improvement
+remains strict, but equality in \eqref{eq:droop} does not block.
+Since $q(W,T)\le n$, an affordable integral target has size at most $k$.
+Every Droop-core committee is Hare core: for a nonempty target,
+$kq\ge n|T|$ implies $q>0$ and hence $(k+1)q>n|T|$.
+Neither convention requires unanimous approval of a target, and targets
+may overlap the committee. Unqualified uses of \emph{core} and
+\emph{blocker} in Sections~\ref{sec:repeat}--\ref{sec:construction}
+refer to Hare, unless both conventions are explicitly mentioned.
 
 \begin{theorem}\label{thm:main}
 For every finite approval election with $m\ge3$ candidates and $k=m-2$ seats,
-an ordinary deterministic Hare-core committee exists.
+a deterministic Droop-core committee exists. In particular, the
+ordinary deterministic Hare core is nonempty.
 \end{theorem}
+The Droop statement is proved in Section~\ref{sec:droop}.
 
 Proportional Approval Voting (PAV) maximizes a harmonic approval score.
 We use its optimality only to initialize a contraction; a PAV maximizer
@@ -119,18 +142,27 @@ We first record an elementary removal bound. Fix a committee $W$, an
 unselected candidate $b$, and a nonempty set $Y\subseteq W$. For one voter,
 sum the PAV changes over the swaps $W-\{y\}+\{b\}$, $y\in Y$. If $b$ is
 approved, every such change is nonnegative. If $b$ is not approved and
-$u=u_i(W)>0$, the sum is $-|A_i\cap Y|/u\ge-1$. If $u=0$, the sum is zero.
+$u=u_i(W)>0$, the sum is $-|A_i\cap Y|/u\ge-1$. If $b$ is not approved
+and $u=0$, the sum is zero.
 Thus this sum is at least $-1$ for every voter; no division by zero is used.
 
-We reprove the following exclusion of Peters~\cite[Lemma~3.1(ii)]{Peters2025}.
+The following numerical bound implies the one-outsider exclusion of
+Peters~\cite[Lemma~3.1(ii)]{Peters2025} under both quota conventions.
 
-\begin{lemma}\label{lem:one}
-A Hare blocker of a one-swap PAV local maximizer cannot introduce exactly
-one new candidate. In particular, if exactly two candidates are unselected,
-every blocker contains both of them.
+\begin{lemma}[One-outsider bound]\label{lem:one}
+Let $W$ be a one-swap PAV local maximizer with $|W|=k$.
+For every nonempty $T\subseteq C$ with $|T|\le k$ and
+$|T\setminus W|\le1$,
+\begin{equation}\label{eq:one}
+ (k+1)q(W,T)\le n|T|.
+\end{equation}
+Thus such a target is neither a Hare blocker nor a Droop blocker.
+If exactly two candidates are unselected, every blocker under either
+convention contains both of them.
 \end{lemma}
 \begin{proof}
-Let $W$ be such a local maximizer and suppose $T\setminus W=\{b\}$.
+If $T\subseteq W$, then $q(W,T)=0$, so \eqref{eq:one} holds.
+Otherwise write $T\setminus W=\{b\}$.
 Write $t=|T|$ and $Y=W\setminus T$, so $d=|Y|=k-t+1\ge1$. A strict gainer
 approves $b$ and none of $Y$. Its utility at $W$ is at most $t-1$; hence
 each of the $d$ swaps adding $b$ and removing a member of $Y$ increases its
@@ -140,19 +172,20 @@ summed over all $d$ swaps and voters, is therefore at least
 \[
  \frac{dq}{t}-(n-q)=\frac{(k+1)q-nt}{t}.
 \]
-If $T$ blocks, $kq\ge nt$ and $q>0$, so this expression is positive.
-Local maximality says each swap has nonpositive total change, a
-contradiction. A target contained in $W$ has no strict gainers. When two
-candidates are unselected, a blocker must consequently contain both.
+Local maximality makes each swap's total change nonpositive, so
+$(k+1)q\le nt$. This excludes Droop blocking directly.
+If $q>0$, it also gives $kq<(k+1)q\le nt$; if $q=0$, then
+$kq=0<nt$. Thus Hare blocking is also excluded, proving the consequences.
 \end{proof}
 
-The next estimate holds for \emph{every} completion of a first blocking
-target. Neither the later committee nor the later target needs to optimize
-an objective.
+The next estimate holds for \emph{every} completion of a target containing
+both initially unselected candidates. Neither affordability of that target
+nor optimality of the later committee is needed.
 
 \begin{lemma}[Repeated-support bound]\label{lem:repeat}
-Let $|C|=k+2$, let $W_0$ be a one-swap PAV local maximizer, and let $F$
-be a Hare blocker of $W_0$. Put $Q_0=\gain(W_0,F)$. For any $k$-committee
+Let $|C|=k+2$, let $W_0$ be a one-swap PAV local maximizer, and let
+$C\setminus W_0\subseteq F\subseteq C$ with $|F|\le k$.
+Put $Q_0=\gain(W_0,F)$. For any $k$-committee
 $W\supseteq F$ and any $T\subseteq C$ with $|T|\le k$, define
 \[
  I=F\cap T,\quad s=|I|,\quad
@@ -174,7 +207,7 @@ strict improvements and the containment $F\subseteq W$ give
 \]
 Every inequality is therefore an equality. In particular, the voter
 approves both members of $B$, $F$ contains exactly $a-1$ of its approvals,
-and $T$ contains all its approvals. Lemma~\ref{lem:one} gives $B\subseteq F$,
+and $T$ contains all its approvals. By assumption $B\subseteq F$,
 so $B\subseteq I$. The unique approved candidate $d_i$ outside $F$ lies
 in $W_0\setminus I$, and every other approved candidate lies in $I$.
 Consequently $a\ge3$ and $a-1\le s$, in particular $s\ge2$.
@@ -235,6 +268,7 @@ election, so $kq\ge nt$ for $q=q(W,T)$. Define
 \[
  r=|Q_0\cap\gain(W,T)|,\qquad q'=q-r.
 \]
+Lemma~\ref{lem:one} gives $C\setminus W_0\subseteq F$, so
 Lemma~\ref{lem:repeat} gives $(k+1)r\le ns$, hence $kr\le ns$.
 It follows that
 \begin{equation}\label{eq:remaining}
@@ -266,8 +300,24 @@ test retains the original $n,k$. Equations~\eqref{eq:residualquota}--
 \eqref{eq:remaining} prove exactly why a hypothetical original blocker
 would induce a residual blocker.
 
+This contraction differs from fixed-target PAV reoptimization. With
+$F$, $N'$ and $U\subseteq D$ as above, the two objectives are
+\[
+ \underbrace{\sum_{i\in N'}H_{|A_i\cap F|+|A_i\cap U|}}
+ _{\text{full-committee score with }F\text{ fixed}}
+ \qquad\text{and}\qquad
+ \underbrace{\sum_{i\in N'}H_{|A_i\cap U|}}
+ _{\text{ordinary residual-election score}}.
+\]
+Peters' recursive PAV rule uses the first objective~\cite[Algorithm~1]{Peters2025};
+our recursive initialization uses the second. They do not generally differ
+by a constant independent of $U$. More importantly, Lemma~\ref{lem:lift}
+accepts every residual core, irrespective of how it is obtained.
+
 \section{Induction and exact construction}\label{sec:construction}
-\begin{proof}[Proof of Theorem~\ref{thm:main}]
+We first prove the Hare-core consequence of Theorem~\ref{thm:main}
+directly; Section~\ref{sec:droop} establishes its stronger Droop statement.
+\begin{proof}[Direct proof of Hare-core nonemptiness]
 Induct on $k\ge1$, always with $|C|=k+2$. For $k=1$, choose a global
 PAV maximizer. Any blocker would have size one and $q=n$, hence strictly
 increase PAV, a contradiction.
@@ -280,13 +330,26 @@ a residual core committee $U$. Lemma~\ref{lem:lift} lifts it to the
 original core committee $F\cup U$, which has exactly $f+k'=k$ candidates.
 \end{proof}
 
-This is also a finite construction: enumerate committees to find a global
-PAV maximizer; enumerate all nonempty targets of size at most the current
-seat count to check \eqref{eq:core}; if a blocker exists, contract as in
-Lemma~\ref{lem:lift}, solve the smaller instance, and lift. The positive
-integer seat count strictly decreases at each recursive call. Any choice
-among tied PAV maximizers and any first blocker is allowed. No efficient
-running-time claim is made.
+The proof gives the following exact construction.
+\begin{center}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{HareCore}$(N,C,k,(A_i)_{i\in N})$, where $|C|=k+2$.
+\begin{enumerate}
+\item Choose a global PAV maximizer $W_0$ among the $k$-committees.
+\item If no target blocks $W_0$ under \eqref{eq:core}, return $W_0$.
+Otherwise choose any blocker $F$.
+\item Set $N'=N\setminus\gain(W_0,F)$, $D=C\setminus F$ and $k'=k-|F|$.
+\item Compute $U=\textbf{HareCore}(N',D,k',(A_i\cap D)_{i\in N'})$
+and return $F\cup U$.
+\end{enumerate}
+\end{minipage}}
+\end{center}
+The positive integer seat count strictly decreases at each recursive call.
+Any tied PAV maximizer and any first blocker are allowed. At a call with
+$m$ candidates, PAV maximization compares $\binom{m}{2}$ committees;
+the exhaustive blocking test examines
+$\sum_{t=1}^{m-2}\binom mt=2^m-m-2$ targets.
+Thus the reference implementation is not a polynomial-time algorithm.
 
 All lemmas sum over actual voters, so repeated types with positive integer
 multiplicities are included. Empty approvals make zero PAV changes and
@@ -294,7 +357,7 @@ never strictly gain; universal approvals cannot strictly gain from a target
 of at most $k$ candidates. These voters are nevertheless retained in every
 electorate unless they genuinely belong to a deleted full-gainer set.
 Finiteness is used for global maximization, exhaustive tests and the
-well-founded induction. There is no fractional-to-integral passage.
+well-founded induction.
 
 
 \subsection{Contraction of a blocked PAV maximizer}\label{sec:example}
@@ -320,10 +383,12 @@ three to four, and
 \[
  kq(W_0,F)=9\cdot10=18\cdot5=n|F|.
 \]
-Under the same Hare-core and unique-global-PAV conventions, this example
-has fewer voters than the $27$-voter example described as voter-minimal
-in Peters~\cite[Section 4.3]{Peters2025}. We make no minimality claim
-for eighteen voters.
+For $k=9$, this example has fewer voters than the $27$-voter
+unique-global-PAV counterexample described as voter-minimal in
+Peters~\cite[Section 4.3]{Peters2025}. We make no minimality claim for
+eighteen voters. This comparison is specific to $k=9$: a PAV failure with
+$k=18$ and three voters appears in Becker, Greger and
+Peters~\cite[Figure~1]{BGP2026}.
 
 After contraction, eight voters remain, all approving the six candidates
 in $Y$, and the residual committee size is four. Every four-element
@@ -332,6 +397,136 @@ four candidates can strictly improve any voter. Lemma~\ref{lem:lift}
 therefore makes $F\cup U$ an original core committee.
 The accompanying code reproduces this construction and independently
 checks every original target, using integers for all quota tests.
+Here the deleted voters approve no candidate outside $F$, so repeated
+support is zero. For a nonzero example, keep $B,X,Y,k$ but change the
+three multiplicities to $27,27,44$ and add one voter approving
+$B\cup\{y_1\}$, where $y_1\in Y$.
+The resulting $99$-voter profile again has the unique PAV maximizer
+$W_0=X\cup Y$ and the Hare blocker $F=B\cup X$, now with
+$9\cdot55=99\cdot5$.
+Choose any four-element $U\subseteq Y$ excluding $y_1$.
+For the added voter,
+\[
+ u_i(W_0)=1,\qquad u_i(F)=u_i(F\cup U)=2,\qquad
+ u_i(B\cup\{y_1\})=3.
+\]
+Thus a deleted voter can strictly gain again. The later target
+$T=B\cup\{y_1\}$ has $q(F\cup U,T)=1$ and is not affordable under
+either quota: $9\cdot1<99\cdot3$ and $10\cdot1<99\cdot3$.
+The example illustrates the scope of Lemma~\ref{lem:repeat}, not a
+blocker of the lifted committee. Its validity does not require deleted
+voters to be permanently unable to gain. The accompanying checker
+replays the bound for all completions of $F$ and all legal targets.
+
+\section{The Droop strengthening}\label{sec:droop}
+We now use the strict Droop test \eqref{eq:droop} throughout the induction.
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+For induction only, also allow $k=0$ and $m=2$, with a nonempty
+electorate. The empty committee is then Droop core: no nonempty
+target can satisfy \eqref{eq:droop}. This is an auxiliary base case,
+not a change to the positive-seat model of Section~\ref{sec:model}.
+
+Let $k\ge1$ and choose a global PAV maximizer $W_0$. If it is Droop
+core, stop. Otherwise choose a Droop blocker $F$, and put
+$f=|F|$, $Q_0=\gain(W_0,F)$ and $q_0=|Q_0|$.
+Lemma~\ref{lem:one} implies that $F$ contains both candidates outside $W_0$,
+and Lemma~\ref{lem:repeat} applies. Moreover $q_0<n$, since otherwise
+padding $F$ to $k$ candidates strictly increases every voter's PAV term.
+
+Define $D=C\setminus F$, $N'=N\setminus Q_0$, $k'=k-f$ and
+$n'=n-q_0$. These satisfy $n'>0$, $0\le k'<k$, $|D|=k'+2$, and
+\begin{equation}\label{eq:drooptransfer}
+ (k+1)n'<n(k'+1).
+\end{equation}
+By induction the ordinary residual election on $N',D$ with projected
+approvals and $k'$ seats has a Droop core $U$. We show that every such
+$U$ lifts to a Droop core $W=F\cup U$.
+
+Suppose instead that $T$ Droop-blocks $W$. Write
+$q=q(W,T)$, $t=|T|$, $s=|F\cap T|$, $V=T\setminus F$, $v=|V|$,
+$r=|Q_0\cap\gain(W,T)|$ and $q'=q-r$. Since $T\subseteq F$
+cannot strictly improve anyone over $W$, we have $v\ge1$.
+Lemma~\ref{lem:repeat} and \eqref{eq:droop} give
+\[
+ (k+1)q'=(k+1)(q-r)>n(t-s)=nv.
+\]
+Using \eqref{eq:drooptransfer} and only positive integer multipliers,
+\[
+ (k+1)(k'+1)q'>n(k'+1)v>(k+1)n'v,
+ \qquad\text{hence}\qquad (k'+1)q'>n'v.
+\]
+The $q'$ voters outside $Q_0$ strictly improve from $U$ to $V$ after
+cancelling the fixed part, exactly as in Lemma~\ref{lem:lift}.
+Also $q'\le n'$ and $n'>0$, so $v<k'+1$. Integrality gives $v\le k'$.
+For $k'=0$ this contradicts $v\ge1$; for $k'>0$ it makes $V$ an
+admissible Droop blocker of $U$, again a contradiction.
+The lift has exactly $f+k'=k$ candidates, completing the induction.
+\end{proof}
+
+The same exhaustive construction therefore works with the Droop test
+\eqref{eq:droop} and an empty-committee return at the auxiliary zero-seat
+base case. The original Hare construction and its equality convention
+remain as stated in Section~\ref{sec:construction}.
+
+\begin{corollary}\label{cor:atmosttwo}
+Every finite approval election with $1\le k\le m$ and $m-k\le2$
+has a deterministic Droop-core committee, and hence a Hare-core committee.
+\end{corollary}
+\begin{proof}
+For $m-k\le1$, choose a global PAV maximizer $W$.
+Every legal target has $|T\setminus W|\le1$, so Lemma~\ref{lem:one}
+excludes Droop blocking. The case $m-k=2$ is Theorem~\ref{thm:main}.
+\end{proof}
+
+\subsection{A Hare core outside the Droop core}\label{sec:distinction}
+Peters' Example~6.1~\cite{Peters2025} separates the two quota conventions
+within the two-omission class. Relabel its candidates as
+$C=B\mathbin{\dot\cup}X\mathbin{\dot\cup}Y$, with
+$B=\{b_0,b_1\}$, $|X|=2$, $|Y|=4$ and $k=6$.
+The $24$ voters have the following approvals:
+\[
+\begin{array}{c|r}
+\text{approval set}&\text{multiplicity}\\ \hline
+X\cup\{b_0\}&7\\
+X\cup\{b_1\}&7\\
+Y&10
+\end{array}
+\]
+The unique global PAV maximizer is $W_0=X\cup Y$.
+For omitted-pair classes $BB$, $BX$, $BY$, $XX$, $XY$ and $YY$, the respective losses
+relative to $\PAV(C)$ are $14/3,49/6,29/6,35/3,43/6,35/6$;
+the $BB$ loss is uniquely smallest.
+For $F=X\cup B$, both seven-voter types strictly improve, and
+\[
+ 6\cdot14=84<24\cdot4=96<7\cdot14=98.
+\]
+Thus $F$ Droop-blocks $W_0$ but does not Hare-block it.
+In fact, $W_0$ is Hare core. The ten voters approving $Y$ are
+satiated. A target improving exactly one seven-voter type needs at
+least three candidates; improving both requires all four candidates of $F$.
+The Hare tests fail in both cases, since $6\cdot7<24\cdot3$ and
+$6\cdot14<24\cdot4$.
+
+Consequently the Hare construction returns $W_0$, whereas the Droop
+construction fixes $F$ and leaves ten voters, four candidates and two seats.
+Every pair $U\subseteq Y$ is a residual Droop core and lifts to
+$F\cup U$. The supplied input and independent verifier reproduce the
+two outputs and check all $246$ original legal targets for each.
+
+\subsection{Why Droop equality must remain nonblocking}
+The strict inequality in \eqref{eq:droop} cannot be replaced by a
+weak inequality in the existence theorem. For any $k\ge1$, take
+$n=k+1$ voters and $C=\{c_1,\ldots,c_{k+1},d\}$.
+Voter $i$ approves only $c_i$, and no voter approves $d$.
+Every $k$-committee $W$ omits some $c_i$. For $T=\{c_i\}$,
+only voter $i$ strictly gains, so
+\[
+ (k+1)q(W,T)=k+1=n|T|.
+\]
+Hence the modified convention that blocks at Droop equality has an
+empty core even with two omissions. This is a boundary of the quota
+convention, not an empty-core example under \eqref{eq:droop} or a
+tightness claim for the repeated-support bound.
 
 \section{Discussion}
 The two-omission condition is used at one precise point. A voter who
@@ -343,41 +538,42 @@ per voter alone would not justify deleting a coalition. The overlap
 bound supplies the missing charge for candidates cancelled from a
 later target.
 
-The contraction preserves the class $m-k=2$ and accepts any core of the
-smaller election. In each recursive call, PAV is evaluated on projected
-residual approval sets, with that residual election's seat count.
-The lifting proof, rather than an identification of the two quotas,
-connects this residual calculation to every blocking test in the
-parent electorate. This distinguishes the argument from an assertion
-that an arbitrary sequence of fixed-target reoptimizations cannot
-overcommit seats.
-
 With three or more omissions, two strict improvements no longer force
 the utility equalities used in Lemma~\ref{lem:repeat}. The proof therefore
-does not establish core existence for unrestricted $(m,k)$. It also
-makes no claim about weak Nash certificates or polynomial running time.
-Its conclusion is a uniform, integral existence theorem for the entire
-two-omission class, supported by a complete contraction-and-lifting
-argument.
+does not establish core existence for unrestricted $(m,k)$. Its conclusion
+is a uniform integral existence theorem for the entire two-omission class,
+under both Hare and Droop affordability, supported by contraction and lifting.
+
+\section*{AI use disclosure}
+
+OpenAI Codex, using GPT-6 Astra, was used for proof exploration and
+checking, exact-verifier development, and manuscript drafting and revision.
+AI-generated output is not treated as mathematical evidence. The results
+are established by the analytic proofs presented above. The accompanying
+code implements the construction and independently checks its outputs and
+the illustrative examples. The author remains
+responsible for the statements, proofs, citations, source code, and final
+artifacts.
 
 \section*{Code availability}
-The accompanying package contains the exact exhaustive constructor,
-a separate set-based verifier and the example in Section~\ref{sec:example}.
-They use only Python's standard library. The theorem does not depend on
-these diagnostic computations. Instructions and the input format are
-given in the package README. The repository for public release is
+
+The constructor and verifier source code, example instances, manuscript
+source, and reproduction instructions accompany this manuscript. The
+project repository is
 \url{https://github.com/Baymax-ray/approval-core-two-omissions}.
 
-\section*{AI use}
-GPT-6 Astra (OpenAI) was used for proof exploration and checking,
-verification-code development, manuscript drafting and revision.
-The author retains responsibility for the submitted content.
-
-\begin{thebibliography}{1}
+\begin{thebibliography}{2}
 \bibitem{Peters2025}
 D. Peters, \emph{The Core of Approval-Based Committee Elections with Few Seats},
 Proceedings of the Thirty-Fourth International Joint Conference on
 Artificial Intelligence (IJCAI 2025), pp.~4014--4022.
 \href{https://doi.org/10.24963/ijcai.2025/447}{doi:10.24963/ijcai.2025/447}.
+Full version: arXiv:2501.18304v2, 14 May 2025.
+\url{https://arxiv.org/abs/2501.18304v2}.
+\bibitem{BGP2026}
+P. Becker, M. Greger and D. Peters,
+\emph{Core Existence in Approval-Based Committee Elections with up to Seven
+Voter Types}, arXiv:2605.06194v2, 17 August 2026.
+\url{https://arxiv.org/abs/2605.06194v2}.
 \end{thebibliography}
 \end{document}

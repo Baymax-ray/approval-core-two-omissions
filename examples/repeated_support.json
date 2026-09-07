@@ -1,0 +1,11 @@
+{
+  "m": 11,
+  "k": 9,
+  "candidate_labels": ["b0", "b1", "x0", "x1", "x2", "y1", "y2", "y3", "y4", "y5", "y6"],
+  "ballots": [
+    {"mask": 29, "multiplicity": 27},
+    {"mask": 30, "multiplicity": 27},
+    {"mask": 2016, "multiplicity": 44},
+    {"mask": 35, "multiplicity": 1}
+  ]
+}
